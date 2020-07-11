@@ -1,6 +1,6 @@
 PROJECT_ROOT = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-OBJS = ControlEscolar5.o Conexion.o Alumno.o Profesor.o Materia.o Curso.o
+OBJS = ControlEscolar5.o Conexion.o Alumno.o Profesor.o Materia.o Curso.o Menu.o
 
 ifeq ($(BUILD_MODE),debug)
 	CFLAGS += -g
