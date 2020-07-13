@@ -7,6 +7,7 @@
 
 #include "Validacion.h"
 #include "Alumno.h"
+#include "Menu.h"
 #include "Conexion.h"
 #include <ctype.h> //validar Mayusculas
 #include <cctype>
@@ -22,6 +23,7 @@ Validacion::~Validacion() {
 }
 Conexion conexion;
 
+//conexion = new Conexion();
 char* Validacion::validarInformacion(string nombre,int opc) {
     //Conexion conexion;
     //Validar que la primera letra sea Mayuscula
@@ -189,45 +191,85 @@ char* Validacion::validarMatricula(string boleta,int opc) {
     }
     return 0;
 }
+////////HOLGADO
+/*bool Validacion::isnumber(const char *s) {
+	   char* e = NULL;
+	   (void) strtol(s, &e, 0);
+	   return e != NULL && *e == (char) 0;
+	}*/
 
-int Validacion::validarFecha(int dia,int mes,int year,int opc) {
-    if (std::to_string(dia).size() <= 2) { //if (boleta.size() <= 10) { Menor o igual que 2
-        //alumno.setBoleta(boleta);
-    }
-    else {
-        cout << "--Tienes que seguir el formato dado dd / mm / aaaa --";
-        //conexion.wInsertarAlumno();
-        switch(opc) {
-        //ALUMNO
-        case 1:
-            conexion.wInsertarAlumno();
-            break;
-        case 2:
-            conexion.wActualizarAlumno();
-            break;
+/*bool check_number(string str) {
+   for (int i = 0; i < str.length(); i++)
+   if (isdigit(str[i]) == false)
+      return false;
+      return true;
+}*/
 
-        }
-    }
-    if (std::to_string(mes).size() <= 2) { //if (boleta.size() <= 10) {
-    }
-    else {
-        //cout << "Tienes que poner 2 caracteres";
-        cout << "--Tienes que seguir el formato dado dd / mm / aaaa --";
-        //conexion.wInsertarAlumno();
-        switch(opc) {
-        //ALUMNO
-        case 1:
-            conexion.wInsertarAlumno();
-            break;
-        case 2:
-            conexion.wActualizarAlumno();
-            break;
-        }
-    }
+
+
+int Validacion::validarCadena(int numero,int opc) {
+/*
+	cin>>numero;
+	 if (cin.fail())
+	 cout << "Not an int\n";
+*/
+	int temp = 0;
+	bool valid= false;
+	//cin>>numero;
+	if (cin.good())
+	        {
+		//cout << "Bien." << endl;
+				//valid = true;
+	        }
+	        else
+	        {
+	            //something went wrong, we reset the buffer's state to good
+	            cin.clear();
+	            //and empty it
+	            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+	            cout << "Solo se aceptan numeros." << endl;
+	            //conexion.wInsertarAlumno();
+	            switch(opc) {
+	            //ALUMNO
+	            case 1:
+	            	conexion.wInsertarAlumno();
+	            	break;
+	            case 2:
+	            	conexion.wActualizarAlumno();
+	            	break;
+				/*case 3:
+					conexion.wAsingarCalificacion();
+					break;*/
+	            }
+
+	        }
+	 if (std::to_string(numero).size() <= 2) { //if (boleta.size() <= 10) { Menor o igual que 2
+	        //alumno.setBoleta(boleta);
+	    }
+	    else {
+	        cout << "--Tienes que seguir el formato dado dd / mm / aaaa --";
+	        //conexion.wInsertarAlumno();
+	        switch(opc) {
+	        //ALUMNO
+	        case 1:
+	            conexion.wInsertarAlumno();
+	            break;
+	        case 2:
+	            conexion.wActualizarAlumno();
+	            break;
+
+	        }
+	    }
+
+return 0;
+}
+////////
+
+int Validacion::validarFecha(int year,int opc) {
+
     if (std::to_string(year).size() == 4) { //if (boleta.size() <= 10) {
     }
     else {
-        //cout << "Tienes que poner 4 caracteres";
         cout << "-- Tienes que seguir el formato dado dd / mm / aaaa --";
         //conexion.wInsertarAlumno();
         switch(opc) {
@@ -270,42 +312,117 @@ char* Validacion::validarIdMateria(string idmateria,int opc) {
         case 5:
             conexion.wAsingarCalificacion();
             break;
-
+        case 6:
+            conexion.wBorrarCurso();
+            break;
         }
     }
     return 0;
 }
 
 int Validacion::validarCalificacion(int calificacion){
-for(int i = 0; i < std::to_string(calificacion).length(); i++)
-    {
-        if((std::to_string(calificacion)[i] >= 'a' && std::to_string(calificacion)[i] <= 'z')||(std::to_string(calificacion)[i] >= 'A' && std::to_string(calificacion)[i] <= 'Z'))
-            //if((aStrn[index] > 64 && aStrn[index] < 91) || (aStrn[index] > 96 && aStrn[index] < 123))
-        {
-            cout << "--Solo debes introducir numeros!--\n";
-            conexion.wAsingarCalificacion();
-         }
-    }
 
-for(int i = 0; i < std::to_string(calificacion).length(); i++)
+	Menu menu;
+
+	int resetar= 0; //SOLO ACEPTAR del 0 al 10
+	for(int i = 0; i < std::to_string(calificacion).length(); i++)
     {
-        if(std::to_string(calificacion)[i] <= 10 )
-            //if((aStrn[index] > 64 && aStrn[index] < 91) || (aStrn[index] > 96 && aStrn[index] < 123))
+     	//if(calificacion <= 10) GOOD ONE
+
+		if(calificacion >= 0 && calificacion <= 10)
+		//if(std::to_string(calificacion)[i] <= 10  || std::to_string(calificacion)[i] >= 10  )
         {
+        	//cout << "--Valores introducidos correctamente!--\n";
+			//cout << "--Valores introducidos correctamente!--\n";
+         }
+        else if (calificacion >= 11){
+        	//cout << "--Solo debes introducir una calificacion entre 0 - 10!--\n";
+        	  //      	conexion.wAsingarCalificacion();//
+        	cout << "\n--ANTES DEL CLEAR --: "<< calificacion;
+        	std::to_string(calificacion).clear();
+        	cout << "\n--DESPUES DEL CLEAR --: "<< calificacion;
+        		//resetar = calificacion;
+
+        	cout << "\n--DESPUES DEL CALIFICACION = 0 --: "<< calificacion;
         	cout << "--Solo debes introducir una calificacion entre 0 - 10!--\n";
-        	conexion.wAsingarCalificacion();//
-         }
-        /*else{
+//checar por que no quita el numero mayor a 10 como limpiar la memoria
+        	 cin.clear();
+        	 cin.ignore();
+         	calificacion=0;
+         	//conexion.wAsingarCalificacion();//
+         	menu.mostrarMenu();
+        	}
 
-         }*/
-    }
+
+        				//return 0;
+         }
+  //  }
 
     if (std::to_string(calificacion).size() <= 2) { //if (boleta.size() <= 10) {
+    	//if (18 < age && age < 30)
         //alumno.setBoleta(boleta);
     }
     else {
-        cout << "--Tienes que introducir 10 caracteres--\n";
+        cout << "--Tienes que introducir solo 2 caracteres--\n";
         conexion.wAsingarCalificacion();
      }
     return 0;
+}
+
+int Validacion::validarCadenaCalificacion(int numero,int opc) {
+	Menu menu;
+/*
+	cin>>numero;
+	 if (cin.fail())
+	 cout << "Not an int\n";
+*/
+	int temp = 0;
+	bool valid= false;
+	//cin>>numero;
+	if (cin.good())
+	        {
+		//cout << "Bien." << endl;
+				//valid = true;
+	        }
+	        else
+	        {
+	            //something went wrong, we reset the buffer's state to good
+	            cin.clear();
+	            //and empty it
+	            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+	            cout << "Solo se aceptan numeros." << endl;
+	            //free(&numero);
+				//conexion.wAsingarCalificacion();
+	            menu.mostrarMenu();
+	        }
+return 0;
+}
+
+int Validacion::validarOpc(int opc) {
+	Menu menu;
+/*
+	cin>>numero;
+	 if (cin.fail())
+	 cout << "Not an int\n";
+*/
+	int temp = 0;
+	bool valid= false;
+	//cin>>numero;
+	if (cin.good())
+	        {
+		//cout << "Bien." << endl;
+				//valid = true;
+	        }
+	        else
+	        {
+	            //something went wrong, we reset the buffer's state to good
+	            cin.clear();
+	            //and empty it
+	            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+	            cout << "Solo se aceptan numeros." << endl;
+	            //free(&numero);
+				//conexion.wAsingarCalificacion();
+	            menu.mostrarMenu();
+	        }
+return 0;
 }

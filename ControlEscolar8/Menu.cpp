@@ -6,6 +6,7 @@
  */
 
 #include "Menu.h"
+#include "Validacion.h"
 #include "Conexion.h"
 Menu::Menu() {
 	// TODO Auto-generated constructor stub
@@ -15,93 +16,86 @@ Menu::Menu() {
 Menu::~Menu() {
 	// TODO Auto-generated destructor stub
 }
+int opc=0;
 
 void Menu::mostrarMenu() {
-	 int opc,actOpc;
-	    Conexion *prueba;
-	    prueba=new Conexion();
+	 int actOpc;
+	 	Validacion *validacion;
+	 	validacion=new Validacion();
+	    Conexion *conexion;
+	    conexion=new Conexion();
 	    do {
 	        cout<<"\n1. Registrar alumno. "<<endl;
 	        cout<<"2. Registrar profesor. "<<endl;
 	        cout<<"3. Registrar materias. "<<endl;
 	        cout<<"4. Administrar grupos. "<<endl;
 	        cout<<"5. Asignar materias a profesor y inscribir alumno a un curso. "<<endl;
-	        cout<<"6.*Inscribir alumno a un curso. "<<endl;
-	        cout<<"7. Ingresar calificaciones. "<<endl;
+	        //cout<<"6.*Inscribir alumno a un curso. "<<endl;
+	        cout<<"6. Ingresar calificaciones. "<<endl;
 	        cout<<"8. Salir."<<endl<<endl;
 	        cin>>opc;
+	        validacion->validarOpc(opc);
 	        switch(opc) {
 	        case 1:
 	        	//cout << "\n -- ALUMNO --\n1-Registrar un Alumno \n2-Eliminar un Alumno \n3-Actualizar un alumno \n4-Consultar Alumno " << endl;
 	        	cout << "\n -- ALUMNO --\n1-Registrar \n2-Eliminar \n3-Actualizar \n4-Consultar " << endl;
 	        	cin>>actOpc;
+	        	//VALIDAR OPC PARA QUE SOLO ACEPTE NUMEROS
 	        	if(actOpc == 1) {
-	        		prueba->wInsertarAlumno();
+	        		conexion->wInsertarAlumno();
 	        		//prueba->wConsultarAlumno();
 	        		} else if(actOpc == 2) {
 	        		    cout << "\nEliminar un  de Alumno " << endl;
 	        		    cout << "\n-Tabla actual- " << endl;
-	        		    prueba->wConsultarAlumno();
-	        		    prueba->wBorrarAlumno();
-	        		    cout << "\n-Tabla actualizada- " << endl;
-	        		    prueba->wConsultarAlumno();
+	        		    conexion->wConsultarAlumno();
+	        		    conexion->wBorrarAlumno();
 	        		} else if(actOpc == 3) {
 	        		    cout << "\nActualizar informacion de un alumno " << endl;
 	        		    cout << "\n-Tabla actual- " << endl;
-	        		    prueba->wConsultarAlumno();
-	        		    prueba->wActualizarAlumno();
-	        		    cout << "\n-Tabla actualizada- " << endl;
-	        		    prueba->wConsultarAlumno();
+	        		    conexion->wConsultarAlumno();
+	        		    conexion->wActualizarAlumno();
 	        		} else if(actOpc == 4) {
-	        		    prueba->wConsultarAlumno();
+	        			conexion->wConsultarAlumno();
 	        		} else { cout << "\n-Opcion Invalida- \n" << endl; mostrarMenu();}
 	            break;
 	        case 2:
 	        	cout << "\n -- PROFESOR --\n1-Registrar \n2-Eliminar \n3-Actualizar \n4-Consultar " << endl;
 	        	cin>>actOpc;
 	        	if(actOpc == 1) {
-	        	    prueba->wInsertarProfesor();
-	        	    prueba->wConsultarProfesor();
+	        		conexion->wInsertarProfesor();
+	        		conexion->wConsultarProfesor();
 	        	} else if(actOpc == 2) {
 	        	    cout << "\nEliminar a un Profesor " << endl;
 	        	    cout << "\n-Tabla actual- " << endl;
-	        	    prueba->wConsultarProfesor();
-	        	    prueba->wBorrarProfesor();
-	        	    cout << "\n-Tabla actualizada- " << endl;
-	        	    prueba->wConsultarProfesor();
+	        	    conexion->wConsultarProfesor();
+	        	    conexion->wBorrarProfesor();
 	        	} else if(actOpc == 3) {
 	        	    cout << "\nActualizar informacion de un profesor " << endl;
 	        	    cout << "\n-Tabla actual- " << endl;
-	        	    prueba->wConsultarProfesor();
-	        	    prueba->wActualizarProfesor();
-	        	    cout << "\n-Tabla actualizada- " << endl;
-	        	    prueba->wConsultarProfesor();
+	        	    conexion->wConsultarProfesor();
+	        	    conexion->wActualizarProfesor();
 	        	} else if(actOpc == 4) {
-	        	    prueba->wConsultarProfesor();
+	        		conexion->wConsultarProfesor();
 	        	} else { cout << "\n-Opcion Invalida- \n" << endl; mostrarMenu();}
 	            break;
 	        case 3:
 	        	cout << "\n -- MATERIA --\n1-Registrar \n2-Eliminar \n3-Actualizar \n4-Consultar " << endl;
 	        	cin>>actOpc;
 	        	if(actOpc == 1) {
-	        	    prueba->wInsertarMateria();
-	        	    prueba->wConsultarMateria();
+	        		conexion->wInsertarMateria();
+	        		conexion->wConsultarMateria();
 	        	} else if(actOpc == 2) {
 	        	    cout << "\nEliminar una Materia" << endl;
 	        	    cout << "\n-Tabla actual- " << endl;
-	        	    prueba->wConsultarMateria();
-	        	    prueba->wBorrarMateria();
-	        	    cout << "\n-Tabla actualizada- " << endl;
-	        	    prueba->wConsultarMateria();
+	        	    conexion->wConsultarMateria();
+	        	    conexion->wBorrarMateria();
 	        	} else if(actOpc == 3) {
 	        	    cout << "\nActualizar informacion de un profesor " << endl;
 	        	    cout << "\n-Tabla actual- " << endl;
-	        	    prueba->wConsultarMateria();
-	        	    prueba->wActualizarMateria();
-	        	    cout << "\n-Tabla actualizada- " << endl;
-	        	    prueba->wConsultarMateria();
+	        	    conexion->wConsultarMateria();
+	        	    conexion->wActualizarMateria();
 	        	} else if(actOpc == 4) {
-	        	    prueba->wConsultarMateria();
+	        		conexion->wConsultarMateria();
 	        	} else { cout << "\n-Opcion Invalida- \n" << endl; mostrarMenu();}
 	            break;
 	        case 4:
@@ -110,44 +104,37 @@ void Menu::mostrarMenu() {
 	        	cin>>actOpc;
 	            if(actOpc == 1) {
 	            	cout << "\n--- Cursos ---" << endl;
-	            	prueba->wConsultarCurso();
+	            	conexion->wConsultarCurso();
 	            } else if(actOpc == 2) {
 	            	cout << "\nEliminar un Curso " << endl;
 	            	 cout << "\n-Tabla actual- " << endl;
-	            	 prueba->wConsultarCurso();
-	            	 prueba->wBorrarCurso();
-	            	 cout << "\n-Tabla actualizada- " << endl;
-	            	 prueba->wConsultarCurso();
+	            	 conexion->wConsultarCurso();
+	            	 conexion->wBorrarCurso();
 	            } else { cout << "\n-Opcion Invalida- \n" << endl; mostrarMenu();}
 	            break;
 	        case 5:
 	        	cout << "\n--- ALUMNOS---" << endl;
-	        	prueba->wConsultarAlumno();
+	        	conexion->wConsultarAlumno();
 	        	cout << "\n--- MATERIAS---" << endl;
-	        	prueba->wConsultarMateria();
+	        	conexion->wConsultarMateria();
 	        	cout << "\n--- PROFESORES---" << endl;
-	        	prueba->wConsultarProfesor();
-	        	prueba->wCrearCurso();
-	        	cout << "\nCurso creado exitosamente\n" << endl;
-	        	prueba->wConsultarCurso();
+	        	conexion->wConsultarProfesor();
+	        	conexion->wCrearCurso();
 	        break;
 	        case 6:
 	        	cout<<" "<<endl;
 	        break;
 	        case 7:
-	        	prueba->wConsultarCurso();
-	        	prueba->wAsingarCalificacion();
+	        	conexion->wConsultarCurso();
+	        	conexion->wAsingarCalificacion();
 	        	//cout << "\nCalificacion asignada exitosamente\n" << endl;
-	        	prueba->wConsultarCurso();
+	        	conexion->wConsultarCurso();
 	        break;
 	        default:
 	        cout<<"Se ha cerrado el programa."<<endl;
 	        break;
 	        }
-	    } while(opc != 8);//while (opc > 8 && opc != 0);//while (opc > 8 || opc < 1);//while(opc != 8);//while(opc < 1 || opc > 8 );
-	    //while (userInput < 1 || userInput > 9);
-
-	    //while(opc != 8);
-	    //while(opc <=7 || opc != 0);
-//	    return 0; <  >
+	      delete conexion;
+	      delete validacion;
+	    } while(opc <= 7);
 }

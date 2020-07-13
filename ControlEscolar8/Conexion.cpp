@@ -51,7 +51,7 @@ int  Conexion::wConsultarAlumno() {
                 cout<<" "<<c[4].as<string>()<<"\t\t";
                 cout<<" "<<c[5].as<string>()<<"\t\t";
                 cout<<" "<<c[6].as<string>()<<endl;
-            }
+                }
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -88,7 +88,6 @@ int  Conexion::wInsertarAlumno() {
             int dia,mes,year;
             cout<<"\nIngrese la matricula de alumno:"<<endl;
                 cin>>matricula; // OBTENER BOLETA
-                //alumno->setBoleta(boleta);
                 validacion.validarMatricula(matricula,1); // VALIDAR MATRICULA
                 alumno->setBoleta(matricula);// //INSERTAR SI SE VALIDO CORRECTAMENTE *
             cout<<"Nombre(s):"<<endl;// OBTENER NOMBRE
@@ -105,15 +104,19 @@ int  Conexion::wInsertarAlumno() {
             	validacion.validarInformacion(segundoapellido,1);
             	alumno->setSegundoApellido(segundoapellido);
             cout<<"Fecha de nacimiento dd / mm / aaaa:"<<endl;
-            	cin>>dia>>mes>>year;
-            	validacion.validarFecha(dia,mes,year,1);
+            	cin>>dia;
+            	validacion.validarCadena(dia,1);  // Validar que solo se introduzcan numeros
+           		cin>>mes;
+           		validacion.validarCadena(mes,1);
+           		cin>>year;
+           		validacion.validarFecha(year,1);
             	alumno->setDia(dia);
             	alumno->setMes(mes);
             	alumno->setYear(year);
             W.exec(this->insertarAlumno(alumno->getBoleta(),alumno->getNombre(), alumno->getPrimerApellido(), alumno->getSegundoApellido(),alumno->getDia(),alumno->getMes(),alumno->getYear()));
             cout << "Valores insertados exitosamente" << endl;
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************"<<endl;
+            cout<<"*****************\n"<<endl;
             wConsultarAlumno();
             menu.mostrarMenu();
         } else {
@@ -149,7 +152,9 @@ int  Conexion::wActualizarAlumno() {
             int size=sql->size();
             W.exec(this->actualizarAlumno()); //AGREGADO ** * Ejecutar consulta SQL * /
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************";
+            cout<<"*****************\n";
+            wConsultarAlumno();
+            menu.mostrarMenu();
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -186,7 +191,6 @@ char* Conexion::actualizarAlumno() {
     switch(opc) {
     case 1:
         cout << "Cambiar nombre a " << endl;
-        //cin >> nuevonombre;
         std::getline(std::cin >> std::ws, nuevonombre);
         validacion.validarInformacion(nuevonombre,2);
         alumno.setNombre(nuevonombre);
@@ -202,14 +206,18 @@ char* Conexion::actualizarAlumno() {
     case 3:
         cout << "Cambiar a Segundo apellido a: " << endl;
         cin >> nsegundoapellido;
-        validacion.validarInformacion(nsegundoapellido,2);
+        validacion.validarInformacion(nsegundoapellido,2);			//2
         alumno.setSegundoApellido(nsegundoapellido);
         sql=new string("UPDATE alumno set segundoapellido= '" + alumno.getSegundoApellido() + "' where matricula= '" + alumno.getBoleta()  + "' ");
         break;
     case 4:
-        cout << "\nFecha de nacimiento formate dd/mm/aaaa  cambiar a: " << endl;
-        cin>>dia>>mes>>year;
-        validacion.validarFecha(dia,mes,year,2);
+        cout << "\nFecha de nacimiento formato dd/mm/aaaa  cambiar a: " << endl;
+        cin>>dia;
+        validacion.validarCadena(dia,2);  // Validar que solamente se introduzcan numeros y formato
+        cin>>mes;
+        validacion.validarCadena(mes,2);
+        cin>>year;
+        validacion.validarFecha(year,2);
         alumno.setDia(dia);
         alumno.setMes(mes);
         alumno.setYear(year);
@@ -256,7 +264,9 @@ int  Conexion::wBorrarAlumno() {
             int size=sql->size();
             W.exec(this->borrarAlumno()); //AGREGADO  * Ejecutar consulta SQL * /
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************";
+            cout<<"*****************\n";
+            wConsultarAlumno();
+            menu.mostrarMenu();
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -282,14 +292,13 @@ char* Conexion::borrarAlumno() {
     case 1:
         cout << "\nMatricula " << endl;
         cin >> matricula;
-        validacion.validarMatricula(matricula,3);
+        validacion.validarMatricula(matricula,3);		//3
         alumno.setBoleta(matricula);
         sql=new string("DELETE from alumno where matricula = '"+ alumno.getBoleta() +"'");
         break;
     case 2:
         cout << "\n¿Estas seguro S/N?" << endl;
     	cin >> pregunta;
-    	//getline(cin, seg);
     	if(pregunta == "S" || pregunta == "s") {
     	cout << "\nLa tabla fue ELIMINADA correctamente" << endl;
     	sql=new string("DELETE from alumno");
@@ -365,7 +374,6 @@ int  Conexion::wInsertarProfesor() {
             string nombre,primerapellido,segundoapellido,matriculaprofesor;
             cout<<"--Profesor--"<<endl;
             cout<<"Nombre(s):"<<endl;
-            //cin>>nombre;
             std::getline(std::cin >> std::ws, nombre);				//4
             validacion.validarInformacion(nombre,4);
             profesor->setNombre(nombre);
@@ -384,7 +392,7 @@ int  Conexion::wInsertarProfesor() {
             W.exec(this->insertarProfesor(profesor->getMatriculaProfesor(),profesor->getNombre(), profesor->getPrimerApellido(), profesor->getSegundoApellido()));
             cout << "Profesor creado exitosamente" << endl;
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************"<<endl;
+            cout<<"*****************\n"<<endl;
             wConsultarProfesor();
             menu.mostrarMenu();
         } else {
@@ -419,7 +427,9 @@ int  Conexion::wActualizarProfesor() {
             int size=sql->size();
             W.exec(this->actualizarProfesor()); //AGREGADO ** * Ejecutar consulta SQL * /
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************";
+            cout<<"*****************\n";
+            wConsultarProfesor();
+            menu.mostrarMenu();
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -453,7 +463,6 @@ char* Conexion::actualizarProfesor() {
     switch(opc) {
     case 1:
         cout << "Cambiar nombre a " << endl;
-        //cin >> nuevonombre;
         std::getline(std::cin >> std::ws, nuevonombre);			//5
         validacion.validarInformacion(nuevonombre,5);
         profesor.setNombre(nuevonombre);
@@ -512,7 +521,9 @@ int  Conexion::wBorrarProfesor() {
             int size=sql->size();
             W.exec(this->borrarProfesor()); //AGREGADO  * Ejecutar consulta SQL * /
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************";
+            cout<<"*****************\n";
+            wConsultarProfesor();
+            menu.mostrarMenu();
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -528,8 +539,7 @@ int  Conexion::wBorrarProfesor() {
 char* Conexion::borrarProfesor() {
     Profesor profesor;
     string nombre,matricula,seg;
-	//char seg;
-    int opc;
+	int opc;
     cout << "\n1-*Borrar a un profesor (Se puede borrar mientras el profesor no este inscrito dentro de un Curso)" << endl;
     cout << "2-Borrar toda la tabla (SSe puede borrar mientras ningun profesor este inscrito dentro de un Curso)" << endl;
     cout << "3-Colsultar Cursos" << endl;
@@ -551,7 +561,6 @@ char* Conexion::borrarProfesor() {
     		cout << "\nLa tabla fue ELIMINADA correctamente" << endl;
     	sql=new string("DELETE from profesor");
     	} else { cout << "\n-No se realizaron cambios a la tabla- \n" << endl; menu.mostrarMenu(); }
-    	//sql=new string("DELETE from profesor");
         break;
     case 3:
         cout << "\n--- Cursos ---" << endl;
@@ -585,7 +594,7 @@ int  Conexion::wConsultarMateria() {
             nontransaction N(c); // * Crear un objeto no transaccional. *
             int size=sql->size();
             result R(N.exec(this->consultarMateria())); // * Ejecutar consulta SQL *
-//insert into materia (idmateria ,nombre ) values('1CV11','POO');
+            //insert into materia (idmateria ,nombre ) values('1CV11','POO');
             cout<<"\n Id_materia\tNombre\t"<<endl;
             cout<<"=================================================="<<endl;
             for(result::const_iterator c=R.begin(); c!=R.end(); ++c) {
@@ -622,22 +631,22 @@ int  Conexion::wInsertarMateria() {
             int size=sql->size();
             Materia* materia;
             materia = new Materia();
-//insert into materia (idmateria ,nombre ) values('1CV11','POO');
+            //insert into materia (idmateria ,nombre ) values('1CV11','POO');
             string idmateria,nombre;
             cout<<"Id materia:"<<endl;
             cin>>idmateria;
             validacion.validarIdMateria(idmateria,1); // ->1 Validar materia
             materia->setIdmateria(idmateria);
             cout<<"Nombre:"<<endl;
-            //cin>>nombre;
-            //std::getline(std::cin, nombre);
             std::getline(std::cin >> std::ws, nombre);
             validacion.validarInformacion(nombre,7); 		// (7)
             materia->setNombre(nombre);
             W.exec(this->insertarMateria(materia->getIdmateria(),materia->getNombre()));
             cout << "Valores insertados exitosamente" << endl;
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************"<<endl;
+            cout<<"*****************\n"<<endl;
+            wConsultarMateria();
+            menu.mostrarMenu();
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -670,9 +679,11 @@ int  Conexion::wActualizarMateria() {
             work W(c); //AGREGADO  * Crear un objeto transaccional.
             int size=sql->size();
             W.exec(this->actualizarMateria()); //AGREGADO ** * Ejecutar consulta SQL * /
-//cout << "Campo actualizado exitosamente" << endl;
+            //cout << "Campo actualizado exitosamente" << endl;
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************";
+            cout<<"*****************\n";
+            wConsultarMateria();
+            menu.mostrarMenu();
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -752,7 +763,9 @@ int  Conexion::wBorrarMateria() {
             W.exec(this->borrarMateria()); //AGREGADO  * Ejecutar consulta SQL * /
             cout << "Los valores fueron borrados exitosamente" << endl;
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************";
+            cout<<"*****************\n";
+            wConsultarMateria();
+            menu.mostrarMenu();
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -785,7 +798,6 @@ char* Conexion::borrarMateria() {
     case 2:
         cout << "\n¿Estas seguro S/N?" << endl;
     	cin >> pregunta;
-    	//getline(cin, seg);
     	if(pregunta == "S" || pregunta == "s") {
     		cout << "\nLa tabla fue ELIMINADA correctamente" << endl;
     		sql=new string("DELETE from materia");
@@ -820,7 +832,7 @@ int  Conexion::wConsultarCurso() {
             nontransaction N(c); // * Crear un objeto no transaccional. *
             int size=sql->size();
             result R(N.exec(this->consultarCurso())); // * Ejecutar consulta SQL *
-//insert into materia (idmateria ,nombre ) values('1CV11','POO');
+            //insert into materia (idmateria ,nombre ) values('1CV11','POO');
             cout<<"\n Matricula Alumno\tId_materia\tMatricula Profesor\tCalificacion"<<endl;
             cout<<"=================================================="<<endl;
             for(result::const_iterator c=R.begin(); c!=R.end(); ++c) {
@@ -860,7 +872,7 @@ int  Conexion::wCrearCurso() {
             int size=sql->size();
             Curso* curso;
             curso = new Curso();
-//char* crearCurso(string matricula,string idmateria,string matriculaprofesor,int calificacion)
+            //char* crearCurso(string matricula,string idmateria,string matriculaprofesor,int calificacion)
             string matriculaAlumno,idmateria,matriculaprofesor;
             int calificacion;
             cout<<"\nMatricula de alumno:"<<endl;
@@ -878,7 +890,9 @@ int  Conexion::wCrearCurso() {
             curso->setCalificacion(0); //Se asigna 0 por defecto
             W.exec(this->crearCurso(curso->getMatriculaAlumno(),curso->getIdmateria(),curso->getMatriculaProfesor(),curso->getCalificacion()));
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************"<<endl;
+            cout<<"*****************\n"<<endl;
+            wConsultarCurso();
+            menu.mostrarMenu();
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -912,7 +926,9 @@ int  Conexion::wAsingarCalificacion() {
             W.exec(this->asingarCalificacion()); //AGREGADO ** * Ejecutar consulta SQL * /
             cout << "Calificacion asignada exitosamente" << endl;
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************";
+            cout<<"*****************\n";
+            wConsultarCurso();
+            menu.mostrarMenu();
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -927,8 +943,10 @@ int  Conexion::wAsingarCalificacion() {
 
 char* Conexion::asingarCalificacion() {
     Curso curso;
+
     string matriculaAlumno,idmateria,matriculaprofesor;
     int calificacion;
+    //int reset = 0;
     cout<<"Dame la Matricula del alumno:"<<endl;
     cin>>matriculaAlumno;
     validacion.validarMatricula(matriculaAlumno,9);			// 9 -> Validar matricula
@@ -942,7 +960,10 @@ char* Conexion::asingarCalificacion() {
     //validacion.validarMatricula(matriculaprofesor,9);			// 9 -> Validar matricula
     curso.setMatriculaProfesor(matriculaprofesor);
     cout<<"Dame la calificacion:"<<endl;
+    //calificacion = 0;
     cin>>calificacion;
+    //validacion.validarCadena(calificacion,3);
+    validacion.validarCadenaCalificacion(calificacion,3);
     validacion.validarCalificacion(calificacion);			// Validar calificacion
     curso.setCalificacion(calificacion);
     sql=new string("UPDATE curso set calificacion= '" + std::to_string(curso.getCalificacion()) + "' where idmateria= '" + curso.getIdmateria()  + "' AND matricula='" + curso.getMatriculaAlumno()  + "'  ");
@@ -963,7 +984,9 @@ int  Conexion::wBorrarCurso() {
             W.exec(this->borrarCurso()); //AGREGADO  * Ejecutar consulta SQL * /
             cout << "El curso fue borrado exitosamente" << endl;
             W.commit(); //COMMIT es el comando SQL que se utiliza para almacenar los cambios realizados por una transacciÃƒÂ³n.
-            cout<<"*****************";
+            cout<<"*****************\n";
+            wConsultarCurso();
+            menu.mostrarMenu();
         } else {
             cout<<"No se conecto a la Base de datos"<<endl;
             return 1;
@@ -980,10 +1003,10 @@ char* Conexion::borrarCurso() {
     Curso curso;
     string matriculaAlumno,matriculaprofesor,idMateria,pregunta;
     int opc;
-    cout << "1-Borrar alumno de un curso" << endl;
+    cout << "\n1-Borrar alumno de un curso" << endl;
     cout << "2-Borrar profesor de un curso" << endl;
     cout << "3-Borrar un curso* (Todos los alumnos y profesores inscritos seran borrados del curso)" << endl;
-    cout << "4-Borrar todos los cursos* (Todos los alumnos y profesores inscritos seran borrados de los Cursos)" << endl;
+    cout << "4-Borrar todos los cursos* (Todos los alumnos y profesores inscritos seran borrados del Cursos)" << endl;
     cout << "5-Salir al menu principal" << endl;
     cin>>opc;
     switch(opc) {
@@ -1031,11 +1054,11 @@ char* Conexion::borrarCurso() {
         cout<<"salir ...\n";
         menu.mostrarMenu();
         break;
-
     }
     int size;
     size=sql->size()+1;
     char *query=new char[size];
     strcpy(query, sql->c_str());
     return query;
+
 }
