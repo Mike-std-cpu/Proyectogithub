@@ -62,6 +62,8 @@ int  Conexion::wConsultarAlumno() {
         return 1;
     }
     return 0;
+    /*wConsultarAlumno();
+    menu.mostrarMenu();*/
 }
 
 char* Conexion::consultarAlumno() {
@@ -86,11 +88,11 @@ int  Conexion::wInsertarAlumno() {
             string nombre,primerapellido,segundoapellido,matricula;
             //string nombre[100];
             int dia,mes,year;
-            cout<<"\nIngrese la matricula de alumno:"<<endl;
+            cout<<"\nLa matricula debe de ser de 10 caracteres \nIngrese la matricula de alumno:"<<endl;
                 cin>>matricula; // OBTENER BOLETA
                 validacion.validarMatricula(matricula,1); // VALIDAR MATRICULA
                 alumno->setBoleta(matricula);// //INSERTAR SI SE VALIDO CORRECTAMENTE *
-            cout<<"Nombre(s):"<<endl;// OBTENER NOMBRE
+            cout<<"Nombre y apellidos deben empezar con Mayusculas\nNombre(s):"<<endl;// OBTENER NOMBRE
             	//cin>>nombre;
             	std::getline(std::cin >> std::ws, nombre);
             	validacion.validarInformacion(nombre,1);// // VALIDAR NOMBRE
@@ -129,6 +131,8 @@ int  Conexion::wInsertarAlumno() {
         return 1;
     }
     return 0;
+ wConsultarAlumno();
+ menu.mostrarMenu();
 }
 
 char* Conexion::insertarAlumno(string matricula,string nombre, string primerapellido, string segundoapellido,int dia,int mes,int year) {
@@ -165,6 +169,8 @@ int  Conexion::wActualizarAlumno() {
         return 1;
     }
     return 0;
+    wConsultarAlumno();
+    menu.mostrarMenu();
 }
 
 char* Conexion::actualizarAlumno() {
@@ -242,7 +248,7 @@ char* Conexion::actualizarAlumno() {
         break;
     default:
     	cout<<"salir ...\n";
-    	menu.mostrarMenu();
+    	//menu.mostrarMenu();
         break;
     }
     int size;
@@ -277,6 +283,8 @@ int  Conexion::wBorrarAlumno() {
         return 1;
     }
     return 0;
+    wConsultarAlumno();
+    menu.mostrarMenu();
 }
 
 char* Conexion::borrarAlumno() {
@@ -373,7 +381,7 @@ int  Conexion::wInsertarProfesor() {
             //insert into profesor(matriculaprofesor , nombre, primerapellido ,segundoapellido) values('48715967','carlos','diaz','camacho');
             string nombre,primerapellido,segundoapellido,matriculaprofesor;
             cout<<"--Profesor--"<<endl;
-            cout<<"Nombre(s):"<<endl;
+            cout<<"Nombre y apellidos deben empezar con Mayusculas\nNombre(s):"<<endl;
             std::getline(std::cin >> std::ws, nombre);				//4
             validacion.validarInformacion(nombre,4);
             profesor->setNombre(nombre);
@@ -385,7 +393,7 @@ int  Conexion::wInsertarProfesor() {
             cin>>segundoapellido;
             validacion.validarInformacion(segundoapellido,4);
             profesor->setSegundoApellido(segundoapellido);
-            cout<<"Ingrese matricula del profesor:"<<endl;
+            cout<<"La matricula debe ser de 10 caracteres\nIngrese matricula del profesor:"<<endl;
             cin>>matriculaprofesor;
             validacion.validarMatricula(matriculaprofesor,4);
             profesor->setMatriculaProfesor(matriculaprofesor);
@@ -633,13 +641,13 @@ int  Conexion::wInsertarMateria() {
             materia = new Materia();
             //insert into materia (idmateria ,nombre ) values('1CV11','POO');
             string idmateria,nombre;
-            cout<<"Id materia:"<<endl;
+            cout<<"La id debe de ser de 5 caracteres\nId materia:"<<endl;
             cin>>idmateria;
             validacion.validarIdMateria(idmateria,1); // ->1 Validar materia
             materia->setIdmateria(idmateria);
-            cout<<"Nombre:"<<endl;
+            cout<<"El nombre debe empezar con mayusculas\nNombre:"<<endl;
             std::getline(std::cin >> std::ws, nombre);
-            validacion.validarInformacion(nombre,7); 		// (7)
+            validacion.validarNombreMateria(nombre,1);	  // validar Nombre Materia(1)
             materia->setNombre(nombre);
             W.exec(this->insertarMateria(materia->getIdmateria(),materia->getNombre()));
             cout << "Valores insertados exitosamente" << endl;
@@ -718,7 +726,8 @@ char* Conexion::actualizarMateria() {
         cout << "Cambiar nombre a " << endl;
         //cin >> nuevonombre;
         std::getline(std::cin >> std::ws, nuevonombre);
-        validacion.validarInformacion(nuevonombre,8);			// 8
+        //validacion.validarInformacion(nuevonombre,8);			// 8
+        validacion.validarNombreMateria(nuevonombre,2);	  // validar Nombre Materia(1)
         materia.setNombre(nuevonombre);
         sql=new string("UPDATE materia set nombre= '" + materia.getNombre() + "' where idmateria= '" + materia.getIdmateria()  + "' ");
         break;
@@ -875,15 +884,15 @@ int  Conexion::wCrearCurso() {
             //char* crearCurso(string matricula,string idmateria,string matriculaprofesor,int calificacion)
             string matriculaAlumno,idmateria,matriculaprofesor;
             int calificacion;
-            cout<<"\nMatricula de alumno:"<<endl;
+            cout<<"La matricula debe ser de 10 caracteres\nMatricula de alumno:"<<endl;
             cin>>matriculaAlumno;
             validacion.validarMatricula(matriculaAlumno,8);			// 8 -> Validar matricula
             curso->setMatriculaAlumno(matriculaAlumno);
-            cout<<"Id_materia:"<<endl;
+            cout<<"La matricula debe ser de 5 caracteres\nId_materia:"<<endl;
             cin>>idmateria;
             validacion.validarIdMateria(idmateria,4); //  	->4 Validar materia
             curso->setIdmateria(idmateria);
-            cout<<"Matricula de profesor:"<<endl;
+            cout<<"La matricula debe ser de 10 caracteres\nMatricula de profesor:"<<endl;
             cin>>matriculaprofesor;
             validacion.validarMatricula(matriculaprofesor,8);			// 8 -> Validar matricula
             curso->setMatriculaProfesor(matriculaprofesor);
@@ -959,7 +968,7 @@ char* Conexion::asingarCalificacion() {
     cin>>matriculaprofesor;
     //validacion.validarMatricula(matriculaprofesor,9);			// 9 -> Validar matricula
     curso.setMatriculaProfesor(matriculaprofesor);
-    cout<<"Dame la calificacion:"<<endl;
+    cout<<"La calificacion debe de ser entre 0-10 y nomas de 2 caracteres \nDame la calificacion:"<<endl;
     //calificacion = 0;
     cin>>calificacion;
     //validacion.validarCadena(calificacion,3);

@@ -23,13 +23,12 @@ Validacion::~Validacion() {
 }
 Conexion conexion;
 
-//conexion = new Conexion();
+
 char* Validacion::validarInformacion(string nombre,int opc) {
-    //Conexion conexion;
+
     //Validar que la primera letra sea Mayuscula
     if(islower(nombre.at(0) <= 'z' ? nombre.at(0) : 'A')) {
         cout << "--La primera letra debe ser Mayuscula --\n";
-        //cout << "--OPC--\n"<< opc;
         switch(opc) {
         //ALUMNO
         case 1:
@@ -55,16 +54,14 @@ char* Validacion::validarInformacion(string nombre,int opc) {
         case 8:
             conexion.wActualizarMateria();
             break;
-            /*case 9:
-            	conexion.wBorrarAlumno();
-            	break;*/
+
         }
     }
     //Validar que el nombre no tenga numeros
     if (std::all_of(begin(nombre), end(nombre), ::isalpha))
     {
-        //std::cout << "Son letras" << std::endl;
-        //break;
+       //cout << "Son letras" << std::endl;
+
     } else {
         std::cout << "--Solo debes introducir letras!--" << std::endl;
         switch(opc) {
@@ -91,10 +88,7 @@ char* Validacion::validarInformacion(string nombre,int opc) {
         case 8:
             conexion.wActualizarMateria();
             break;
-        /*case 9:
-            conexion.wBorrarAlumno();
-            break;
-*/
+
         }
     }
 
@@ -102,10 +96,10 @@ char* Validacion::validarInformacion(string nombre,int opc) {
 }
 
 char* Validacion::validarMatricula(string boleta,int opc) {
-    for(int i = 0; i < boleta.length(); i++)
+    //Validar que solo se introduzcan enteros dentro de un String
+	for(int i = 0; i < boleta.length(); i++)
     {
         if((boleta[i] >= 'a' && boleta[i] <= 'z')||(boleta[i] >= 'A' && boleta[i] <= 'Z'))
-            //if((aStrn[index] > 64 && aStrn[index] < 91) || (aStrn[index] > 96 && aStrn[index] < 123))
         {
             cout << "--Solo debes introducir numeros!--\n";
             //conexion.wInsertarAlumno();
@@ -147,8 +141,8 @@ char* Validacion::validarMatricula(string boleta,int opc) {
         }
     }
 
-    if (boleta.size() == 10) { //if (boleta.size() <= 10) {
-        //alumno.setBoleta(boleta);
+    if (boleta.size() == 10) {
+    	//
     }
     else {
         cout << "--Tienes que introducir 10 caracteres--\n";
@@ -177,7 +171,7 @@ char* Validacion::validarMatricula(string boleta,int opc) {
             //MATERIA
             //case 7:
             //	conexion.wInsertarMateria();
-            break;
+            //break;
         case 8:
             conexion.wCrearCurso();
             break;
@@ -191,44 +185,22 @@ char* Validacion::validarMatricula(string boleta,int opc) {
     }
     return 0;
 }
-////////HOLGADO
-/*bool Validacion::isnumber(const char *s) {
-	   char* e = NULL;
-	   (void) strtol(s, &e, 0);
-	   return e != NULL && *e == (char) 0;
-	}*/
-
-/*bool check_number(string str) {
-   for (int i = 0; i < str.length(); i++)
-   if (isdigit(str[i]) == false)
-      return false;
-      return true;
-}*/
-
 
 
 int Validacion::validarCadena(int numero,int opc) {
-/*
-	cin>>numero;
-	 if (cin.fail())
-	 cout << "Not an int\n";
-*/
-	int temp = 0;
-	bool valid= false;
+
 	//cin>>numero;
+	//Validar que solo se introduzcan valores enteros
 	if (cin.good())
 	        {
 		//cout << "Bien." << endl;
-				//valid = true;
 	        }
 	        else
 	        {
-	            //something went wrong, we reset the buffer's state to good
+	        	//Limpiar el buffer si no se introduzco un int
 	            cin.clear();
-	            //and empty it
 	            cin.ignore(numeric_limits<streamsize>::max(),'\n');
 	            cout << "Solo se aceptan numeros." << endl;
-	            //conexion.wInsertarAlumno();
 	            switch(opc) {
 	            //ALUMNO
 	            case 1:
@@ -237,18 +209,15 @@ int Validacion::validarCadena(int numero,int opc) {
 	            case 2:
 	            	conexion.wActualizarAlumno();
 	            	break;
-				/*case 3:
-					conexion.wAsingarCalificacion();
-					break;*/
-	            }
+				}
 
 	        }
-	 if (std::to_string(numero).size() <= 2) { //if (boleta.size() <= 10) { Menor o igual que 2
-	        //alumno.setBoleta(boleta);
+	//Validacion para dia y mes solo aceptar maximo 2 caracteres.
+	if (std::to_string(numero).size() <= 2) {
+		//Bien
 	    }
 	    else {
 	        cout << "--Tienes que seguir el formato dado dd / mm / aaaa --";
-	        //conexion.wInsertarAlumno();
 	        switch(opc) {
 	        //ALUMNO
 	        case 1:
@@ -266,12 +235,12 @@ return 0;
 ////////
 
 int Validacion::validarFecha(int year,int opc) {
-
-    if (std::to_string(year).size() == 4) { //if (boleta.size() <= 10) {
+	//Validacion para el año solo aceptar 4 caracteres no mas no menos.
+    if (std::to_string(year).size() == 4) {
+    	//Bien
     }
     else {
         cout << "-- Tienes que seguir el formato dado dd / mm / aaaa --";
-        //conexion.wInsertarAlumno();
         switch(opc) {
         //ALUMNO
         case 1:
@@ -287,9 +256,9 @@ int Validacion::validarFecha(int year,int opc) {
 
 
 char* Validacion::validarIdMateria(string idmateria,int opc) {
-
-    if (idmateria.size() == 5) { //if (boleta.size() <= 10) {
-        //alumno.setBoleta(boleta);
+	//Validacion para solo aceptar 5 caracteres no mas no menos.
+    if (idmateria.size() == 5) {
+    	//Bien
     }
     else {
         cout << "--Tienes que introducir 5 caracteres--\n";
@@ -327,40 +296,23 @@ int Validacion::validarCalificacion(int calificacion){
 	int resetar= 0; //SOLO ACEPTAR del 0 al 10
 	for(int i = 0; i < std::to_string(calificacion).length(); i++)
     {
-     	//if(calificacion <= 10) GOOD ONE
-
-		if(calificacion >= 0 && calificacion <= 10)
-		//if(std::to_string(calificacion)[i] <= 10  || std::to_string(calificacion)[i] >= 10  )
-        {
+     	if(calificacion >= 0 && calificacion <= 10)
+		{
         	//cout << "--Valores introducidos correctamente!--\n";
-			//cout << "--Valores introducidos correctamente!--\n";
-         }
+		}
         else if (calificacion >= 11){
-        	//cout << "--Solo debes introducir una calificacion entre 0 - 10!--\n";
-        	  //      	conexion.wAsingarCalificacion();//
-        	cout << "\n--ANTES DEL CLEAR --: "<< calificacion;
         	std::to_string(calificacion).clear();
-        	cout << "\n--DESPUES DEL CLEAR --: "<< calificacion;
-        		//resetar = calificacion;
-
         	cout << "\n--DESPUES DEL CALIFICACION = 0 --: "<< calificacion;
         	cout << "--Solo debes introducir una calificacion entre 0 - 10!--\n";
-//checar por que no quita el numero mayor a 10 como limpiar la memoria
-        	 cin.clear();
+        	cin.clear();
         	 cin.ignore();
          	calificacion=0;
-         	//conexion.wAsingarCalificacion();//
          	menu.mostrarMenu();
         	}
-
-
-        				//return 0;
          }
-  //  }
+  	//Validacion para solo aceptar maximo 2 caracteres
+    if (std::to_string(calificacion).size() <= 2) {
 
-    if (std::to_string(calificacion).size() <= 2) { //if (boleta.size() <= 10) {
-    	//if (18 < age && age < 30)
-        //alumno.setBoleta(boleta);
     }
     else {
         cout << "--Tienes que introducir solo 2 caracteres--\n";
@@ -371,28 +323,18 @@ int Validacion::validarCalificacion(int calificacion){
 
 int Validacion::validarCadenaCalificacion(int numero,int opc) {
 	Menu menu;
-/*
-	cin>>numero;
-	 if (cin.fail())
-	 cout << "Not an int\n";
-*/
-	int temp = 0;
-	bool valid= false;
+	//Validar que solo se introduzcan valores enteros
 	//cin>>numero;
 	if (cin.good())
 	        {
-		//cout << "Bien." << endl;
-				//valid = true;
+			//cout << "Bien." << endl;
 	        }
 	        else
 	        {
-	            //something went wrong, we reset the buffer's state to good
+	        	//Limpiar el buffer si no se introduzco un int
 	            cin.clear();
-	            //and empty it
 	            cin.ignore(numeric_limits<streamsize>::max(),'\n');
 	            cout << "Solo se aceptan numeros." << endl;
-	            //free(&numero);
-				//conexion.wAsingarCalificacion();
 	            menu.mostrarMenu();
 	        }
 return 0;
@@ -400,29 +342,37 @@ return 0;
 
 int Validacion::validarOpc(int opc) {
 	Menu menu;
-/*
-	cin>>numero;
-	 if (cin.fail())
-	 cout << "Not an int\n";
-*/
-	int temp = 0;
-	bool valid= false;
+	//Validar que solo se introduzcan valores enteros
 	//cin>>numero;
 	if (cin.good())
 	        {
 		//cout << "Bien." << endl;
-				//valid = true;
 	        }
 	        else
 	        {
-	            //something went wrong, we reset the buffer's state to good
+	            //Limpiar el buffer si no se introduzco un int
 	            cin.clear();
-	            //and empty it
 	            cin.ignore(numeric_limits<streamsize>::max(),'\n');
 	            cout << "Solo se aceptan numeros." << endl;
-	            //free(&numero);
-				//conexion.wAsingarCalificacion();
 	            menu.mostrarMenu();
 	        }
 return 0;
+}
+
+char* Validacion::validarNombreMateria(string nombre,int opc) {
+    //Validar que la primera letra sea Mayuscula
+    if(islower(nombre.at(0) <= 'z' ? nombre.at(0) : 'A')) {
+        cout << "--La primera letra debe ser Mayuscula --\n";
+        //cout << "--OPC--\n"<< opc;
+        switch(opc) {
+        //ALUMNO
+        case 1:
+            conexion.wInsertarMateria();
+            break;
+        case 2:
+            conexion.wActualizarMateria();
+            break;
+        }
+    }
+  return 0;
 }

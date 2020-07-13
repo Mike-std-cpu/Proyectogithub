@@ -22,6 +22,7 @@ public:
 	int validarCadenaCalificacion(int numero,int opc);
 	int validarOpc(int opc);
 	char* validarIdMateria(string idmateria,int opc);
+	char* validarNombreMateria(string nombre,int opc);
 	int validarCalificacion(int calificacion);
 	//bool Validacion::isnumber(const char *s);
 	void setNombre(string nombre);
