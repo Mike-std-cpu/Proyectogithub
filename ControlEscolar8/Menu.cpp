@@ -33,12 +33,12 @@ void Menu::mostrarMenu() {
 	        cout<<"6. Ingresar calificaciones. "<<endl;
 	        cout<<"8. Salir."<<endl<<endl;
 	        cin>>opc;
+		    //VALIDAR OPC PARA QUE SOLO ACEPTE NUMEROS
 	       validacion->validarOpc(opc);
 	        switch(opc) {
 	        case 1:
 	        	cout << "\n -- ALUMNO --\n1-Registrar \n2-Eliminar \n3-Actualizar \n4-Consultar " << endl;
 	        	cin>>actOpc;
-	        	//VALIDAR OPC PARA QUE SOLO ACEPTE NUMEROS
 	        	if(actOpc == 1) {
 	        		conexion->wConsultarAlumno();
 	        		conexion->wInsertarAlumno();
