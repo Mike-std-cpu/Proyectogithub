@@ -1,6 +1,6 @@
 PROJECT_ROOT = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-OBJS = ConexionEj.o Conexion.o Insertar.o
+OBJS = ControlEscolar5.o Conexion.o Alumno.o Profesor.o Materia.o Curso.o Menu.o Validacion.o
 
 ifeq ($(BUILD_MODE),debug)
 	CFLAGS += -g
@@ -10,16 +10,16 @@ else
 	$(error Build mode $(BUILD_MODE) not supported by this Makefile)
 endif
 
-all:	ConexionEj
+all:	ControlEscolar5
 
-ConexionEj:	$(OBJS)
+ControlEscolar5:	$(OBJS)
 	$(CXX) -o $@ $^ -lpqxx -lpq
 
 %.o:	$(PROJECT_ROOT)%.cpp
-	$(CXX) -c $(CFLAGS) $(CXXFLAGS) $(CPPFLAGS) -o $@ -lpqxx -lpq $<
+	$(CXX) -c $(CFLAGS) $(CXXFLAGS) $(CPPFLAGS) -o $@ $<
 
 %.o:	$(PROJECT_ROOT)%.c
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ -lpqxx -lpq $<
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ -lpqxx -lpq$<
 
 clean:
-	rm -fr ConexionEj $(OBJS)
+	rm -fr ControlEscolar5 $(OBJS)
