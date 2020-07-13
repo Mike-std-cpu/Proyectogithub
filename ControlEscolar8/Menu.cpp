@@ -30,7 +30,6 @@ void Menu::mostrarMenu() {
 	        cout<<"3. Registrar materias. "<<endl;
 	        cout<<"4. Administrar grupos. "<<endl;
 	        cout<<"5. Asignar materias a profesor y inscribir alumno a un curso. "<<endl;
-	        //cout<<"6.*Inscribir alumno a un curso. "<<endl;
 	        cout<<"6. Ingresar calificaciones. "<<endl;
 	        cout<<"8. Salir."<<endl<<endl;
 	        cin>>opc;
